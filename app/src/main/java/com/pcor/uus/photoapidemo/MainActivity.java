@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,11 +25,15 @@ public class MainActivity extends AppCompatActivity implements
     private static final int RC_SIGN_IN = 9001;
 
     private GoogleSignInClient mGoogleSignInClient;
+    private TextView mStatusTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Views
+        mStatusTextView = findViewById(R.id.user_name);
 
         // Button listeners
         findViewById(R.id.sign_in_button).setOnClickListener(this);
@@ -115,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
+            mStatusTextView.setText(getString(R.string.username, account.getDisplayName()));
 
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.status_layout).setVisibility(View.VISIBLE);
