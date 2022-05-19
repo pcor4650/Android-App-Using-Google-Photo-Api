@@ -14,7 +14,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -44,6 +46,14 @@ public class MainActivity extends AppCompatActivity implements
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+
+                //OAuth 2.0 scope information for the Google Photos Library API: 우 링크에서 참고 https://developers.google.com/photos/library/guides/authorization
+                .requestScopes(new Scope("https://www.googleapis.com/auth/photoslibrary.readonly"),
+                        new Scope("https://www.googleapis.com/auth/photoslibrary.appendonly"),
+                        new Scope("https://www.googleapis.com/auth/photoslibrary.readonly.appcreateddata"),
+                        new Scope("https://www.googleapis.com/auth/photoslibrary.edit.appcreateddata"),
+                        new Scope("https://www.googleapis.com/auth/photoslibrary"),
+                        new Scope("https://www.googleapis.com/auth/photoslibrary.sharing"))
                 .build();
         // [END configure_signin]
 
