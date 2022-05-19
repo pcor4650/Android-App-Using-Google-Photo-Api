@@ -3,6 +3,7 @@ package com.pcor.uus.photoapidemo;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
+
+    MainFregment first_table;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,9 @@ public class MainActivity extends AppCompatActivity implements
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END build_client]
+
+        first_table = new MainFregment();
+
     }
 
     @Override
@@ -97,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements
 
             // Signed in successfully, show authenticated UI.
             updateUI(account);
+
+            ShowTableView();
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -121,12 +129,20 @@ public class MainActivity extends AppCompatActivity implements
                     public void onComplete(@NonNull Task<Void> task) {
                         // [START_EXCLUDE]
                         updateUI(null);
+
+                        RemoveTableView();
                         // [END_EXCLUDE]
                     }
                 });
     }
     // [END signOut]
+    public void ShowTableView() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, first_table).commit();
+    }
 
+    public void RemoveTableView() {
+        getSupportFragmentManager().beginTransaction().remove(first_table).commit();
+    }
 
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
