@@ -3,7 +3,6 @@ package com.pcor.uus.photoapidemo;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
+
 
     MainFregment first_table;
     AllPhotosFragment all_photos;
@@ -112,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements
             updateUI(account);
             onFragmentChange(1);
 
+            onFragmentChange(1);
+
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -136,7 +138,11 @@ public class MainActivity extends AppCompatActivity implements
                     public void onComplete(@NonNull Task<Void> task) {
                         // [START_EXCLUDE]
                         updateUI(null);
+
                         onFragmentChange(0);
+
+                        onFragmentChange(0);
+
                         // [END_EXCLUDE]
                     }
                 });
