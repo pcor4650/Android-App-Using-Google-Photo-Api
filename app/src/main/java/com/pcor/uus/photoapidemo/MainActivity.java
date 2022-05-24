@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements
     HashTagFregment hashtag;
     FavoriteFregment favorite;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             // Signed in successfully, show authenticated UI.
             updateUI(account);
+            onFragmentChange(1);
 
             onFragmentChange(1);
 
@@ -141,12 +141,13 @@ public class MainActivity extends AppCompatActivity implements
 
                         onFragmentChange(0);
 
+                        onFragmentChange(0);
+
                         // [END_EXCLUDE]
                     }
                 });
     }
     // [END signOut]
-
 
     public void onFragmentChange(int index) {
         switch (index) {

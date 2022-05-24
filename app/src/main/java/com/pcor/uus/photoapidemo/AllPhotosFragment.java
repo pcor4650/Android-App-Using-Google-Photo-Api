@@ -18,3 +18,4 @@ public class AllPhotosFragment extends Fragment {
     }
 
 }
+
