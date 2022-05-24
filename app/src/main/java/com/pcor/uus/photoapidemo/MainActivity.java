@@ -29,6 +29,14 @@ public class MainActivity extends AppCompatActivity implements
     private GoogleSignInClient mGoogleSignInClient;
     private TextView mStatusTextView;
 
+
+    MainFregment first_table;
+    AllPhotosFragment all_photos;
+    AlbumListFregment album_list;
+    HashTagFregment hashtag;
+    FavoriteFregment favorite;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +69,13 @@ public class MainActivity extends AppCompatActivity implements
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         // [END build_client]
+
+        first_table = new MainFregment();
+        all_photos = new AllPhotosFragment();
+        album_list = new AlbumListFregment();
+        hashtag = new HashTagFregment();
+        favorite = new FavoriteFregment();
+
     }
 
     @Override
@@ -94,9 +109,11 @@ public class MainActivity extends AppCompatActivity implements
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
             // Signed in successfully, show authenticated UI.
             updateUI(account);
+
+            onFragmentChange(1);
+
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
@@ -121,6 +138,9 @@ public class MainActivity extends AppCompatActivity implements
                     public void onComplete(@NonNull Task<Void> task) {
                         // [START_EXCLUDE]
                         updateUI(null);
+
+                        onFragmentChange(0);
+
                         // [END_EXCLUDE]
                     }
                 });
@@ -128,12 +148,47 @@ public class MainActivity extends AppCompatActivity implements
     // [END signOut]
 
 
+    public void onFragmentChange(int index) {
+        switch (index) {
+            case 1:
+                getSupportFragmentManager().beginTransaction().replace(R.id.container, first_table).commit();
+                break;
+            case 2:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, all_photos)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case 3:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, album_list)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case 4:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, hashtag)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case 5:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.container, favorite)
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            default:
+                getSupportFragmentManager().beginTransaction().remove(first_table).commit();
+        }
+    }
+
     private void updateUI(@Nullable GoogleSignInAccount account) {
         if (account != null) {
             mStatusTextView.setText(getString(R.string.username, account.getDisplayName()));
-
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.status_layout).setVisibility(View.VISIBLE);
+            onFragmentChange(1); // need to check
+
         } else {
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.status_layout).setVisibility(View.GONE);
